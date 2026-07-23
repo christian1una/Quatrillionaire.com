@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Christian Davila · Realtor · Coachella Valley</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Manrope:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0A0A0A;
+    --white: #FAF8F3;
+    --bright-red: #E31C2E;
+    --red-hover: #FF2D40;
+    --soft-gray: #A8A39A;
+    --dark-gray: #1C1C1C;
+    --radius: 14px;
+    --shadow-soft: 0 25px 70px -20px rgba(0,0,0,0.75);
+    --font-display: "Playfair Display", serif; /* More elegant luxury serif */
+    --font-body: "Manrope", sans-serif;
+    --font-mono: "Space Mono", monospace;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background: var(--black);
+    color: var(--white);
+    font-family: var(--font-body);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  img, svg { display: block; max-width: 100%; }
+
+  a { color: inherit; }
+
+  button {
+    font-family: inherit;
+    cursor: pointer;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--sand-line);
+    outline-offset: 3px;
+  }
+
+  .wrap {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ---------- LOADING SCREEN ---------- */
+  .loading-screen {
+    position: fixed;
+    inset: 0;
+    background: var(--dusk-navy);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    transition: opacity 0.6s ease;
+  }
+  .loading-screen.fade-out {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .loading-moon {
+    animation: loadingSpin 3.2s linear infinite;
+    transform-origin: 45px 45px;
+  }
+  @keyframes loadingSpin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .loading-moon { animation: none; }
+  }
+
+  /* ---------- QUICK CHOICE BUTTONS (inquiry popup) ---------- */
+  .choice-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+  .choice-btn {
+    flex: 1;
+    padding: 14px;
+    border-radius: 10px;
+    border: 1px solid rgba(246,240,228,0.18);
+    background: rgba(0,0,0,0.2);
+    color: var(--moonlight-dim);
+    font-weight: 700;
+    font-size: 14px;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  }
+  .choice-btn.selected {
+    background: var(--clay-bloom);
+    color: var(--dusk-navy);
+    border-color: var(--clay-bloom);
+  }
+
+  /* ---------- HEADER ---------- */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: rgba(10, 10, 10, 0.92);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(199, 168, 124, 0.18);
+  }
+
+  .site-header .wrap {
+    max-width: 720px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 16px;
+    padding-bottom: 16px;
+  }
+
+  .brandmark {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .brand-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.15;
+  }
+
+  .brand-name {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 18px;
+    letter-spacing: 0.01em;
+    color: var(--moonlight);
+  }
+
+  .brand-domain {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    color: var(--sand-line);
+  }
+
+  .brandmark .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--clay-bloom);
+    box-shadow: 0 0 12px 2px rgba(226, 130, 95, 0.7);
+  }
+
+  .lang-toggle {
+    display: flex;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(199, 168, 124, 0.3);
+    border-radius: 999px;
+    padding: 3px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+  }
+
+  .lang-toggle button {
+    border: none;
+    background: transparent;
+    color: var(--moonlight-dim);
+    padding: 6px 12px;
+    border-radius: 999px;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  .lang-toggle button.active {
+    background: var(--clay-bloom);
+    color: var(--dusk-navy);
+    font-weight: 700;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding-top: 56px;
+  }
+
+  .hero-scene {
+    position: relative;
+    width: 100%;
+    height: auto;
+  }
+
+  .moon-glow-anim {
+    animation: moonPulse 6s ease-in-out infinite;
+    transform-origin: center;
+  }
+
+  @keyframes moonPulse {
+    0%, 100% { opacity: 0.55; }
+    50% { opacity: 0.95; }
+  }
+
+  .star {
+    animation: twinkle 4s ease-in-out infinite;
+  }
+  .star:nth-child(2) { animation-delay: 1.1s; }
+  .star:nth-child(3) { animation-delay: 2.3s; }
+  .star:nth-child(4) { animation-delay: 0.6s; }
+
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.25; }
+    50% { opacity: 0.9; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .moon-glow-anim, .star { animation: none; }
+  }
+
+  .hero-copy {
+    padding: 36px 0 44px;
+    text-align: left;
+  }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    color: var(--sand-line);
+    margin: 0 0 18px;
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(2.3rem, 7vw, 3.4rem);
+    line-height: 1.06;
+    letter-spacing: -0.01em;
+    margin: 0 0 18px;
+    color: var(--moonlight);
+  }
+
+  .hero-sub {
+    font-size: 17px;
+    color: var(--moonlight-dim);
+    max-width: 46ch;
+    margin: 0 0 32px;
+  }
+
+  .hero-ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px 24px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 15px;
+    text-decoration: none;
+    border: 1px solid transparent;
+    transition: transform 0.15s ease, background 0.2s ease;
+  }
+
+  .btn:active { transform: scale(0.97); }
+
+  .btn-primary {
+    background: var(--bright-red);
+    color: var(--white);
+  }
+  .btn-primary:hover { background: var(--red-hover); }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--moonlight);
+    border-color: rgba(246, 240, 228, 0.35);
+  }
+  .btn-ghost:hover { border-color: var(--sand-line); }
+
+  /* ---------- SECTIONS ---------- */
+  section { padding: 52px 0; }
+
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(199,168,124,0.4), transparent);
+    border: none;
+    margin: 0;
+  }
+
+  .section-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.09em;
+    color: var(--sand-line);
+    margin: 0 0 10px;
+  }
+
+  h2 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(1.5rem, 4vw, 1.9rem);
+    margin: 0 0 12px;
+    color: var(--moonlight);
+  }
+
+  .section-body {
+    color: var(--moonlight-dim);
+    font-size: 15.5px;
+    max-width: 52ch;
+    margin: 0 0 24px;
+  }
+
+  /* Listings card */
+  .listings-card {
+    background: var(--dusk-plum);
+    border: 1px solid rgba(199,168,124,0.22);
+    border-radius: var(--radius);
+    padding: 26px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .listings-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .tag {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: rgba(147, 163, 130, 0.15);
+    color: var(--sage);
+    border: 1px solid rgba(147, 163, 130, 0.35);
+  }
+
+  /* Form */
+  .form-card {
+    background: var(--dusk-plum);
+    border: 1px solid rgba(199,168,124,0.22);
+    border-radius: var(--radius);
+    padding: 28px;
+    box-shadow: var(--shadow-soft);
+  }
+
+  .field { margin-bottom: 18px; }
+
+  label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.03em;
+    color: var(--moonlight-dim);
+    margin-bottom: 8px;
+  }
+
+  input, select, textarea {
+    width: 100%;
+    background: rgba(0,0,0,0.2);
+    border: 1px solid rgba(246,240,228,0.18);
+    border-radius: 10px;
+    padding: 13px 14px;
+    color: var(--moonlight);
+    font-family: var(--font-body);
+    font-size: 15px;
+  }
+
+  input::placeholder, textarea::placeholder { color: rgba(246,240,228,0.35); }
+
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--sand-line);
+  }
+
+  textarea { min-height: 84px; resize: vertical; }
+
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  @media (max-width: 480px) {
+    .field-row { grid-template-columns: 1fr; }
+  }
+
+  .form-error {
+    font-size: 13px;
+    color: var(--error);
+    margin-top: 6px;
+    display: none;
+  }
+
+  .form-error.visible { display: block; }
+
+  .submit-btn {
+    width: 100%;
+    border: none;
+    margin-top: 6px;
+  }
+
+  .form-note {
+    font-size: 12.5px;
+    color: var(--moonlight-dim);
+    text-align: center;
+    margin-top: 14px;
+  }
+
+  /* Success state */
+  .success-state {
+    display: none;
+    text-align: center;
+    padding: 20px 8px;
+  }
+  .success-state.visible { display: block; }
+  .success-state .moon-check {
+    margin: 0 auto 16px;
+  }
+  .success-state h3 {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin: 0 0 8px;
+  }
+  .success-state p {
+    color: var(--moonlight-dim);
+    margin: 0;
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer {
+    padding: 40px 0 60px;
+    text-align: center;
+  }
+
+  footer .foot-note {
+    font-size: 13px;
+    color: var(--moonlight-dim);
+    margin: 0 0 14px;
+  }
+
+  .foot-domain {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    color: var(--sand-line);
+    margin: 0 0 18px;
+  }
+
+  .admin-link {
+    background: none;
+    border: none;
+    color: rgba(246,240,228,0.3);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .admin-link:hover { color: var(--sand-line); }
+
+  /* ---------- ADMIN OVERLAY ---------- */
+  .overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 12, 20, 0.86);
+    backdrop-filter: blur(6px);
+    display: none;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 40px 20px;
+    z-index: 100;
+    overflow-y: auto;
+  }
+  .overlay.visible { display: flex; }
+
+  .overlay-panel {
+    background: var(--dusk-plum);
+    border: 1px solid rgba(199,168,124,0.3);
+    border-radius: var(--radius);
+    max-width: 560px;
+    width: 100%;
+    padding: 28px;
+    position: relative;
+  }
+
+  .overlay-close {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    background: none;
+    border: none;
+    color: var(--moonlight-dim);
+    font-size: 20px;
+    line-height: 1;
+    padding: 4px;
+  }
+  .overlay-close:hover { color: var(--moonlight); }
+
+  .pin-input {
+    letter-spacing: 0.3em;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 20px;
+  }
+
+  .leads-list { margin-top: 18px; display: flex; flex-direction: column; gap: 10px; }
+
+  .lead-row {
+    background: rgba(0,0,0,0.2);
+    border: 1px solid rgba(246,240,228,0.12);
+    border-radius: 10px;
+    padding: 14px 16px;
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .lead-row .lead-main { font-size: 14px; }
+  .lead-row .lead-name { font-weight: 700; margin-bottom: 3px; }
+  .lead-row .lead-detail { color: var(--moonlight-dim); font-size: 13px; }
+  .lead-row .lead-tag {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    color: var(--sage);
+    margin-top: 6px;
+    display: inline-block;
+  }
+
+  .lead-delete {
+    background: none;
+    border: none;
+    color: rgba(246,240,228,0.35);
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+  .lead-delete:hover { color: var(--clay-bloom); }
+
+  .leads-empty {
+    text-align: center;
+    padding: 30px 10px;
+    color: var(--moonlight-dim);
+    font-size: 14px;
+  }
+
+  .leads-loading {
+    text-align: center;
+    padding: 20px;
+    color: var(--moonlight-dim);
+    font-family: var(--font-mono);
+    font-size: 13px;
+  }
+
+  .pin-error {
+    color: var(--error);
+    font-size: 13px;
+    margin-top: 8px;
+    display: none;
+  }
+  .pin-error.visible { display: block; }
+</style>
+</head>
+<body>
+
+  <div class="loading-screen" id="loadingScreen">
+    <svg class="loading-moon" width="90" height="90" viewBox="0 0 90 90" aria-hidden="true">
+      <defs>
+        <radialGradient id="redGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#C1443A" stop-opacity="0.55"/>
+          <stop offset="100%" stop-color="#C1443A" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <circle cx="45" cy="45" r="42" fill="url(#redGlow)"/>
+      <circle cx="45" cy="45" r="24" fill="#C1443A"/>
+      <circle cx="55" cy="37" r="21" fill="#221D2E"/>
+    </svg>
+  </div>
+
+  <header class="site-header">
+    <div class="wrap">
+      <div class="brandmark">
+        <span class="dot"></span>
+        <div class="brand-text">
+          <span class="brand-name">Christian Davila</span>
+          <span class="brand-domain">quatrillionaire.com</span>
+        </div>
+      </div>
+      <div class="lang-toggle" role="group" aria-label="Language">
+        <button type="button" data-lang="en" class="active">EN</button>
+        <button type="button" data-lang="es">ES</button>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="wrap">
+      <svg class="hero-scene" viewBox="0 0 640 240" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <radialGradient id="moonGrad" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#F6F0E4"/>
+            <stop offset="100%" stop-color="#E2C9A6"/>
+          </radialGradient>
+          <radialGradient id="glowGrad" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#F6F0E4" stop-opacity="0.35"/>
+            <stop offset="100%" stop-color="#F6F0E4" stop-opacity="0"/>
+          </radialGradient>
+          <linearGradient id="mtnFar" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#3D3455"/>
+            <stop offset="100%" stop-color="#362E49"/>
+          </linearGradient>
+          <linearGradient id="mtnNear" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#2A2438"/>
+            <stop offset="100%" stop-color="#221D2E"/>
+          </linearGradient>
+        </defs>
+
+        <circle class="star" cx="70" cy="40" r="1.6" fill="#F6F0E4"/>
+        <circle class="star" cx="140" cy="70" r="1.2" fill="#F6F0E4"/>
+        <circle class="star" cx="230" cy="30" r="1.4" fill="#F6F0E4"/>
+        <circle class="star" cx="380" cy="55" r="1.2" fill="#F6F0E4"/>
+
+        <g class="moon-glow-anim">
+          <circle cx="490" cy="70" r="70" fill="url(#glowGrad)"/>
+          <circle cx="490" cy="70" r="34" fill="url(#moonGrad)"/>
+        </g>
+
+        <path d="M0,150 L60,110 L120,140 L190,95 L260,135 L330,105 L400,145 L460,100 L520,140 L580,120 L640,150 L640,240 L0,240 Z" fill="url(#mtnFar)"/>
+        <path d="M0,190 L80,150 L150,175 L220,135 L300,180 L380,150 L450,185 L520,155 L590,185 L640,170 L640,240 L0,240 Z" fill="url(#mtnNear)"/>
+      </svg>
+
+      <div class="hero-copy">
+        <p class="eyebrow" data-i="eyebrow">CHRISTIAN LUNA · REALTOR® · eXp REALTY</p>
+        <h1 data-i="headline">Let's find you a home.</h1>
+        <p class="hero-sub" data-i="subhead">Every new chapter deserves the right address. Let's find yours, together — in English or Español.</p>
+        <div class="hero-ctas">
+          <a href="#form" class="btn btn-primary" data-i="ctaPrimary">Get in touch</a>
+          <a href="#listings" class="btn btn-ghost" data-i="ctaSecondary">See current listings</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <section id="listings">
+    <div class="wrap">
+      <p class="section-eyebrow" data-i="listingsEyebrow">LISTINGS</p>
+      <h2 data-i="listingsTitle">Coachella Valley Listings</h2>
+      <p class="section-body" data-i="listingsBody">Browse active homes across Palm Desert, Rancho Mirage, La Quinta, Indio, and the wider Valley.</p>
+      <div class="listings-card">
+        <div class="listings-tags">
+          <span class="tag">Palm Desert</span>
+          <span class="tag">Rancho Mirage</span>
+          <span class="tag">La Quinta</span>
+          <span class="tag">Indio</span>
+        </div>
+        <a href="https://www.zillow.com/palm-desert-ca/" target="_blank" rel="noopener" class="btn btn-primary" style="align-self:flex-start" data-i="listingsCta">Browse listings ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <section id="form">
+    <div class="wrap">
+      <p class="section-eyebrow" data-i="formEyebrow">GET IN TOUCH</p>
+      <h2 data-i="formTitle">Tell me what you're looking for</h2>
+      <p class="section-body" data-i="formSub">I'll follow up personally — usually within a day.</p>
+
+      <div class="form-card">
+        <form id="leadForm" novalidate>
+          <div class="field">
+            <label for="fName" data-i="nameLabel">Name</label>
+            <input type="text" id="fName" name="name" required>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="fPhone" data-i="phoneLabel">Phone</label>
+              <input type="tel" id="fPhone" name="phone" required>
+            </div>
+            <div class="field">
+              <label for="fEmail" data-i="emailLabel">Email</label>
+              <input type="email" id="fEmail" name="email" required>
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="fInterest" data-i="interestLabel">I'm interested in</label>
+              <select id="fInterest" name="interest"></select>
+            </div>
+            <div class="field">
+              <label for="fLanguage" data-i="languageLabel">Preferred language</label>
+              <select id="fLanguage" name="language"></select>
+            </div>
+          </div>
+          <div class="field">
+            <label for="fMessage" data-i="messageLabel">Anything else? (optional)</label>
+            <textarea id="fMessage" name="message"></textarea>
+          </div>
+          <p class="form-error" id="formError">—</p>
+          <button type="submit" class="btn btn-primary submit-btn" data-i="submit">Send</button>
+        </form>
+
+        <div class="success-state" id="successState">
+          <svg class="moon-check" width="52" height="52" viewBox="0 0 52 52" aria-hidden="true">
+            <circle cx="26" cy="26" r="25" fill="none" stroke="#93A382" stroke-width="2"/>
+            <path d="M15 27 L22 34 L37 18" fill="none" stroke="#93A382" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <h3 data-i="successTitle">Thanks — got it.</h3>
+          <p data-i="successBody">I'll be in touch soon.</p>
+        </div>
+
+        <p class="form-note" data-i="formNote">Your info goes straight to Christian — never shared or sold.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <p class="foot-note" data-i="footerNote">Licensed CA Real Estate Salesperson · eXp Realty · Obsidian Group</p>
+      <p class="foot-note" style="margin-top:-10px;">DRE# <span style="color:var(--sand-line);">02443550</span></p>
+      <p class="foot-domain">quatrillionaire.com</p>
+    </div>
+  </footer>
+
+  <!-- QUICK INQUIRY POPUP -->
+  <div class="overlay" id="inquiryOverlay">
+    <div class="overlay-panel">
+      <button class="overlay-close" id="inquiryClose" aria-label="Close">×</button>
+
+      <div id="inquiryFormWrap">
+        <p class="section-eyebrow" data-i="popupEyebrow">QUICK QUESTION</p>
+        <h2 data-i="popupTitle">Buying or selling?</h2>
+        <p class="section-body" style="margin-bottom:20px;" data-i="popupSub">Leave your info and I'll reach out personally.</p>
+        <form id="inquiryForm" novalidate>
+          <div class="choice-row">
+            <button type="button" class="choice-btn selected" data-choice="Buying" data-i="popupBuyer">Buying</button>
+            <button type="button" class="choice-btn" data-choice="Selling" data-i="popupSeller">Selling</button>
+          </div>
+          <div class="field">
+            <label for="iName" data-i="popupName">Name</label>
+            <input type="text" id="iName" name="name" required>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="iEmail" data-i="popupEmail">Email</label>
+              <input type="email" id="iEmail" name="email">
+            </div>
+            <div class="field">
+              <label for="iPhone" data-i="popupPhone">Phone</label>
+              <input type="tel" id="iPhone" name="phone">
+            </div>
+          </div>
+          <p class="form-error" id="inquiryError">—</p>
+          <button type="submit" class="btn btn-primary submit-btn" data-i="popupSubmit">Send</button>
+        </form>
+      </div>
+
+      <div id="inquirySuccess" style="display:none;text-align:center;padding:10px 0;">
+        <svg class="moon-check" width="52" height="52" viewBox="0 0 52 52" aria-hidden="true">
+          <circle cx="26" cy="26" r="25" fill="none" stroke="#93A382" stroke-width="2"/>
+          <path d="M15 27 L22 34 L37 18" fill="none" stroke="#93A382" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <h3 style="font-family:var(--font-display);font-size:1.4rem;font-weight:500;margin:0 0 8px;" data-i="popupSuccessTitle">Got it — talk soon.</h3>
+        <p style="color:var(--moonlight-dim);margin:0;" data-i="popupSuccessBody">I'll follow up shortly.</p>
+      </div>
+    </div>
+  </div>
+
+<script>
+(function () {
+  const copy = {
+    en: {
+      eyebrow: "CHRISTIAN DAVILA · REALTOR® · eXp REALTY",
+      headline: "Let's find you a home.",
+      subhead: "Every new chapter deserves the right address. Let's find yours, together — in English or Español.",
+      ctaPrimary: "Get in touch",
+      ctaSecondary: "See current listings",
+      listingsEyebrow: "LISTINGS",
+      listingsTitle: "Coachella Valley Listings",
+      listingsBody: "Browse active homes across Palm Desert, Rancho Mirage, La Quinta, Indio, and the wider Valley.",
+      listingsCta: "Browse listings ↗",
+      formEyebrow: "GET IN TOUCH",
+      formTitle: "Tell me what you're looking for",
+      formSub: "I'll follow up personally — usually within a day.",
+      nameLabel: "Name",
+      phoneLabel: "Phone",
+      emailLabel: "Email",
+      interestLabel: "I'm interested in",
+      interestOptions: ["Buying", "Selling", "Renting", "Just exploring"],
+      languageLabel: "Preferred language",
+      languageOptions: ["English", "Español"],
+      messageLabel: "Anything else? (optional)",
+      submit: "Send",
+      successTitle: "Thanks — got it.",
+      successBody: "I'll be in touch soon.",
+      formNote: "Your info goes straight to Christian — never shared or sold.",
+      footerNote: "Licensed CA Real Estate Salesperson · eXp Realty · Obsidian Group",
+      adminLink: "Agent sign-in",
+      errorRequired: "Please fill in your name, phone, and email.",
+      popupEyebrow: "QUICK QUESTION",
+      popupTitle: "Buying or selling?",
+      popupSub: "Leave your info and I'll reach out personally.",
+      popupName: "Name",
+      popupEmail: "Email",
+      popupPhone: "Phone",
+      popupBuyer: "Buying",
+      popupSeller: "Selling",
+      popupSubmit: "Send",
+      popupError: "Add your name, plus at least an email or phone.",
+      popupSuccessTitle: "Got it — talk soon.",
+      popupSuccessBody: "I'll follow up shortly."
+    },
+    es: {
+      eyebrow: "CHRISTIAN DAVILA · AGENTE · eXp REALTY",
+      headline: "Encontremos su hogar.",
+      subhead: "Cada nuevo capítulo merece la dirección correcta. Encontrémosla juntos — en inglés o español.",
+      ctaPrimary: "Contáctame",
+      ctaSecondary: "Ver propiedades",
+      listingsEyebrow: "PROPIEDADES",
+      listingsTitle: "Propiedades en el Valle de Coachella",
+      listingsBody: "Explore casas activas en Palm Desert, Rancho Mirage, La Quinta, Indio y todo el Valle.",
+      listingsCta: "Ver propiedades ↗",
+      formEyebrow: "CONTACTO",
+      formTitle: "Cuénteme qué está buscando",
+      formSub: "Le responderé personalmente, usualmente en un día.",
+      nameLabel: "Nombre",
+      phoneLabel: "Teléfono",
+      emailLabel: "Correo electrónico",
+      interestLabel: "Me interesa",
+      interestOptions: ["Comprar", "Vender", "Rentar", "Solo explorando"],
+      languageLabel: "Idioma preferido",
+      languageOptions: ["English", "Español"],
+      messageLabel: "¿Algo más? (opcional)",
+      submit: "Enviar",
+      successTitle: "Gracias, recibido.",
+      successBody: "Me pondré en contacto pronto.",
+      formNote: "Su información va directo a Christian — nunca se comparte ni se vende.",
+      footerNote: "Agente de Bienes Raíces con Licencia de CA · eXp Realty · Obsidian Group",
+      adminLink: "Acceso de agente",
+      errorRequired: "Complete su nombre, teléfono y correo electrónico.",
+      popupEyebrow: "PREGUNTA RÁPIDA",
+      popupTitle: "¿Compra o vende?",
+      popupSub: "Deje su información y me pondré en contacto personalmente.",
+      popupName: "Nombre",
+      popupEmail: "Correo electrónico",
+      popupPhone: "Teléfono",
+      popupBuyer: "Comprar",
+      popupSeller: "Vender",
+      popupSubmit: "Enviar",
+      popupError: "Agregue su nombre y al menos un correo o teléfono.",
+      popupSuccessTitle: "Recibido — hablamos pronto.",
+      popupSuccessBody: "Le daré seguimiento en breve."
+    }
+  };
+
+  let currentLang = "en";
+
+  function applyLang(lang) {
+    currentLang = lang;
+    document.querySelectorAll("[data-i]").forEach(function (el) {
+      const key = el.getAttribute("data-i");
+      if (copy[lang][key] !== undefined) el.textContent = copy[lang][key];
+    });
+    document.querySelectorAll(".lang-toggle button").forEach(function (b) {
+      b.classList.toggle("active", b.getAttribute("data-lang") === lang);
+    });
+    populateSelect(document.getElementById("fInterest"), copy[lang].interestOptions);
+    populateSelect(document.getElementById("fLanguage"), copy[lang].languageOptions);
+    document.documentElement.lang = lang;
+  }
+
+  function populateSelect(select, options) {
+    const prevIndex = select.selectedIndex > -1 ? select.selectedIndex : 0;
+    select.innerHTML = "";
+    options.forEach(function (opt) {
+      const o = document.createElement("option");
+      o.value = opt;
+      o.textContent = opt;
+      select.appendChild(o);
+    });
+    select.selectedIndex = prevIndex;
+  }
+
+  document.querySelectorAll(".lang-toggle button").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      applyLang(btn.getAttribute("data-lang"));
+    });
+  });
+
+  applyLang("en");
+
+  // ---------- LOADING SCREEN ----------
+  const loadingScreen = document.getElementById("loadingScreen");
+  setTimeout(function () {
+    loadingScreen.classList.add("fade-out");
+    setTimeout(function () {
+      loadingScreen.style.display = "none";
+      setTimeout(function () {
+        if (!inquiryDismissed) inquiryOverlay.classList.add("visible");
+      }, 2000);
+    }, 650);
+  }, 1300);
+
+  // ---------- QUICK INQUIRY POPUP ----------
+  const inquiryOverlay = document.getElementById("inquiryOverlay");
+  const inquiryClose = document.getElementById("inquiryClose");
+  let inquiryDismissed = false;
+  let selectedChoice = "Buying";
+
+  document.querySelectorAll(".choice-btn").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      selectedChoice = btn.getAttribute("data-choice");
+      document.querySelectorAll(".choice-btn").forEach(function (b) {
+        b.classList.toggle("selected", b === btn);
+      });
+    });
+  });
+
+  function closeInquiry() {
+    inquiryOverlay.classList.remove("visible");
+    inquiryDismissed = true;
+  }
+  inquiryClose.addEventListener("click", closeInquiry);
+  inquiryOverlay.addEventListener("click", function (e) {
+    if (e.target === inquiryOverlay) closeInquiry();
+  });
+
+
+  async function sendLeadNotification(lead) {
+    const response = await fetch("/api/lead", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(lead)
+    });
+
+    let data = {};
+    try {
+      data = await response.json();
+    } catch (err) {}
+
+    if (!response.ok) {
+      throw new Error(data.error || "Unable to send your information.");
+    }
+
+    return data;
+  }
+
+  document.getElementById("inquiryForm").addEventListener("submit", async function (e) {
+    e.preventDefault();
+    const name = document.getElementById("iName").value.trim();
+    const email = document.getElementById("iEmail").value.trim();
+    const phone = document.getElementById("iPhone").value.trim();
+    const errorEl = document.getElementById("inquiryError");
+
+    if (!name || (!email && !phone)) {
+      errorEl.textContent = copy[currentLang].popupError;
+      errorEl.classList.add("visible");
+      return;
+    }
+    errorEl.classList.remove("visible");
+
+    const lead = {
+      id: Date.now() + "-" + Math.random().toString(36).slice(2, 8),
+      name: name, phone: phone, email: email,
+      interest: selectedChoice,
+      language: currentLang === "es" ? "Español" : "English",
+      message: "", source: "popup",
+      submittedAt: new Date().toISOString()
+    };
+
+    const submitBtn = e.currentTarget.querySelector(".submit-btn");
+    submitBtn.disabled = true;
+    submitBtn.textContent = currentLang === "es" ? "Enviando…" : "Sending…";
+
+    try {
+      await sendLeadNotification(lead);
+      document.getElementById("inquiryFormWrap").style.display = "none";
+      document.getElementById("inquirySuccess").style.display = "block";
+    } catch (err) {
+      errorEl.textContent = err.message || "Something went wrong — please try again.";
+      errorEl.classList.add("visible");
+      submitBtn.disabled = false;
+      submitBtn.textContent = copy[currentLang].popupSubmit;
+    }
+  });
+
+  // ---------- LEAD FORM ----------
+  const leadForm = document.getElementById("leadForm");
+  const formError = document.getElementById("formError");
+  const successState = document.getElementById("successState");
+
+  leadForm.addEventListener("submit", async function (e) {
+    e.preventDefault();
+    const name = document.getElementById("fName").value.trim();
+    const phone = document.getElementById("fPhone").value.trim();
+    const email = document.getElementById("fEmail").value.trim();
+    const interest = document.getElementById("fInterest").value;
+    const language = document.getElementById("fLanguage").value;
+    const message = document.getElementById("fMessage").value.trim();
+
+    if (!name || !phone || !email) {
+      formError.textContent = copy[currentLang].errorRequired;
+      formError.classList.add("visible");
+      return;
+    }
+    formError.classList.remove("visible");
+
+    const submitBtn = leadForm.querySelector(".submit-btn");
+    submitBtn.disabled = true;
+
+    const lead = {
+      id: Date.now() + "-" + Math.random().toString(36).slice(2, 8),
+      name: name, phone: phone, email: email,
+      interest: interest, language: language, message: message,
+      source: "form",
+      submittedAt: new Date().toISOString()
+    };
+
+    submitBtn.textContent = currentLang === "es" ? "Enviando…" : "Sending…";
+
+    try {
+      await sendLeadNotification(lead);
+      leadForm.style.display = "none";
+      successState.classList.add("visible");
+    } catch (err) {
+      formError.textContent = err.message || "Something went wrong — please try again, or reach out directly.";
+      formError.classList.add("visible");
+      submitBtn.disabled = false;
+      submitBtn.textContent = copy[currentLang].submit;
+    }
+  });
+
+})();
+</script>
+</body>
+</html>
